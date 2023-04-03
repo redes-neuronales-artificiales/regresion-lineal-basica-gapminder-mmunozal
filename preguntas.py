@@ -1,7 +1,9 @@
 """
 Regresión Lineal Univariada
 -----------------------------------------------------------------------------------------
+
 En este laboratio se construirá un modelo de regresión lineal univariado.
+
 """
 import numpy as np
 import pandas as pd
@@ -13,12 +15,12 @@ def pregunta_01():
     Complete el código presentado a continuación.
     """
     # Lea el archivo `gm_2008_region.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv("gm_2008_region.csv")
+    df = pd.read_csv('gm_2008_region.csv')
 
     # Asigne la columna "life" a `y` y la columna "fertility" a `X`
     y = df["life"].to_numpy()
     X = df["fertility"].to_numpy()
-
+    
     # Imprima las dimensiones de `y`
     print(y.shape)
 
@@ -45,7 +47,7 @@ def pregunta_02():
     """
 
     # Lea el archivo `gm_2008_region.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv("gm_2008_region.csv")
+    df = pd.read_csv('gm_2008_region.csv')
 
     # Imprima las dimensiones del DataFrame
     print(df.shape)
@@ -58,6 +60,7 @@ def pregunta_02():
 
     # Imprima el tipo de dato de la columna `fertility`.
     print(type(df['fertility']))
+
 
     # Imprima la correlación entre las columnas `GDP` y `life` con 4 decimales.
     print(round(np.corrcoef(df['GDP'],df['life'])[0][1],4))
@@ -74,19 +77,23 @@ def pregunta_03():
 
     # Asigne a la variable los valores de la columna `fertility`
     X_fertility = np.array(df['fertility']).reshape(-1,1)
+
     # Asigne a la variable los valores de la columna `life`
     y_life = np.array(df['life']).reshape(-1,1)
+
     # Importe LinearRegression
     from sklearn.linear_model import LinearRegression
 
     # Cree una instancia del modelo de regresión lineal
     reg = LinearRegression()
+
     # Cree El espacio de predicción. Esto es, use linspace para crear
     # un vector con valores entre el máximo y el mínimo de X_fertility
     prediction_space = np.linspace(
         max(X_fertility),
-        min(X_fertility)
-    ).reshape(-1,1)
+        min(X_fertility),
+    ).reshape(-1, 1)
+
     # Entrene el modelo usando X_fertility y y_life
     reg.fit(X_fertility, y_life)
 
@@ -94,7 +101,7 @@ def pregunta_03():
     y_pred = reg.predict(prediction_space)
 
     # Imprima el R^2 del modelo con 4 decimales
-    print(reg.score(X_fertility,y_life).round(4))
+    print(reg.score(X_fertility, y_life).round(4))
 
 
 def pregunta_04():
@@ -115,12 +122,13 @@ def pregunta_04():
 
     # Asigne a la variable los valores de la columna `fertility`
     X_fertility = np.array(df['fertility']).reshape(-1,1)
+
     # Asigne a la variable los valores de la columna `life`
     y_life = np.array(df['life']).reshape(-1,1)
 
     # Divida los datos de entrenamiento y prueba. La semilla del generador de números
     # aleatorios es 53. El tamaño de la muestra de entrenamiento es del 80%
-    (X_train, X_test, y_train, y_test,) = train_test_split(
+    X_train, X_test, y_train, y_test = train_test_split(
         X_fertility,
         y_life,
         test_size=0.2,
@@ -129,13 +137,13 @@ def pregunta_04():
 
     # Cree una instancia del modelo de regresión lineal
     linearRegression = LinearRegression()
-
     # Entrene el clasificador usando X_train y y_train
     linearRegression.fit(X_train, y_train)
 
     # Pronostique y_test usando X_test
     y_pred = linearRegression.predict(X_test)
+
     # Compute and print R^2 and RMSE
     print("R^2: {:6.4f}".format(linearRegression.score(X_test, y_test)))
-    rmse = np.sqrt(mean_squared_error(y_test,y_pred))
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
     print("Root Mean Squared Error: {:6.4f}".format(rmse))
